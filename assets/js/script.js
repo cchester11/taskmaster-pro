@@ -1,3 +1,4 @@
+//creating an object for saving data 
 var tasks = {};
 
 var createTask = function(taskText, taskDate, taskList) {
@@ -45,7 +46,101 @@ var saveTasks = function() {
   localStorage.setItem("tasks", JSON.stringify(tasks));
 };
 
+//              .on('event', 'target', function)
+$('.list-group').on('click', 'p', function() {
+  var text = $(this)
+  .text()
+  .trim()
 
+  console.log(text);
+
+  var textInput = $('<textarea>')
+  .addClass('form-control')
+  .val(text);
+
+  $(this).replaceWith(textInput);
+  textInput.trigger('focus');
+})
+
+//              .on('event', 'target', function() )
+$('.list-group').on('blur', 'textarea', function() {
+  //grab the text we want to use
+  var text = $(this)
+  .val()
+  .trim();
+
+  // getting the parent ul's id. 
+  var status = $(this)
+  .closest('.list-group')
+  .attr('id')
+  //replace the id with 'list-' ''
+  .replace('list-', '')
+
+  // get the closest list item in the ul we want 
+  var index = $(this)
+  .closest('.list-group-item')
+  .index();
+
+  //log it all 
+  task[status][index].text = text;
+  saveTasks();
+
+  //recreate the p element
+  var taskP = $('<p>')
+  .addClass('m1')
+  .text('text')
+
+  $(this).replaceWith(taskP);
+})
+
+//function for click of due date 
+$('.list-group').on('click', 'span', function() {
+  //get current text
+  var date = $(this)
+  .val()
+  .trim();
+
+  //create new date input element
+  var dateInput = $('<input>')
+  //setting the attribute for the new element 
+  .attr('type', 'text')
+  .addClass('form-control')
+  .val(date);
+
+  $(this).replaceWith(dateInput);
+
+  dateInput.trigger('focus');
+})
+
+//what will happen when value of date changes
+$('.list-group').on('blur', 'input[type=text]', function() {
+  //get current text
+  var date =  $(this)
+  .val()
+  .trim()
+
+  //get the parent ul's id
+  var status = $(this)
+  .closest('.list-group')
+  .attr('id')
+  .replace('list-', '')
+
+  //get the task position
+  var index = $(this)
+  .closest('.list-group-item')
+  .index();
+
+  //update
+  task[status][index].date = date;
+  saveTasks();
+
+  var spanTask = $('<span>')
+  .addClass('badge badge-primary badge-pill')
+  text('date');
+
+  //replace input with span
+  $(this).replaceWith(spanTask);
+})
 
 
 // modal was triggered
