@@ -46,6 +46,7 @@ var saveTasks = function() {
   localStorage.setItem("tasks", JSON.stringify(tasks));
 };
 
+//functionality when we click on a task in the list
 //              .on('event', 'target', function)
 $('.list-group').on('click', 'p', function() {
   var text = $(this)
